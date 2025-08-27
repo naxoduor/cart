@@ -60,8 +60,9 @@ services:
     volumes:
       - ./certs:/etc/nginx/certs
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./vhost.d:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/html
+      - ./nginx/custom.conf:/etc/nginx/conf.d/custom.conf:ro   # 👈 mount config
+      # - ./vhost.d:/etc/nginx/vhost.d
+      # - ./html:/usr/share/nginx/html
     networks:
       - proxy
 
