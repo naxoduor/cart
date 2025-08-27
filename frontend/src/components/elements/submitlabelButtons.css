@@ -1,0 +1,41 @@
+.loginRegisterBtn{
+    background-color: brown;
+    border: none;
+    width: 70%;
+    padding: 20px, 30px;
+    margin: 10px 8px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #db4a62;
+    color: #ffffff;
+    text-decoration: none;
+}
+.loginRegisterBtn:hover{
+    background-color: blue;
+    border: none;
+}
+.loginRegisterLabel{
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 8px 0px;
+}
+.inputGroup{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+}
+
+.loginRegisterInput{
+    text-align: center;
+    padding: 10px, 10px;
+    margin: 3px 5px;
+    border: none;
+    border-bottom: 1px solid black;
+    font-family: sans-serif;
+    font-size: 15px;
+    background: rgba(red, green, blue, alpha)
+}

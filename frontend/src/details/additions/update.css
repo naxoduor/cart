@@ -1,0 +1,17 @@
+.details {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-around;
+}
+.nameInput{
+    border: 2px solid gray;
+}
+.descriptionInput{
+    width: 300px;
+    height: 300px;
+    border: 2px solid grey;
+    padding: 4px 8px;
+}
+.inputItem{
+    padding: 4px 8px;
+}

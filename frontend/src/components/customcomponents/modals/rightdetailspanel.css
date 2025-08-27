@@ -1,0 +1,51 @@
+.rightCartButton {
+    width: 20%;
+    margin-top: 30px;
+    background-color: rgb(243, 45, 45);
+    border-radius: 10px; 
+    color: whitesmoke;
+    border: none;
+    cursor: pointer;
+}
+
+.rightFrame  {
+    padding: 10px;
+    margin-left: "5px";
+    float: left;
+    width: 73%
+}
+
+@media (max-width: 800px) {
+    .rightFrame {
+      width: 100%;
+    }
+  }
+
+  
+.modalProductDetails {
+    padding: 10px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.close {
+    margin-right: "160px";
+    background-color: white;
+    color: red;
+    font-size: 100px;
+    font-weight: 600;
+}
+
+.productDescription {
+    text-align: start;
+}
+.quaInput {
+    width: 35%;
+}
+.addButtons {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}

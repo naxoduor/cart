@@ -1,0 +1,23 @@
+
+@media (max-width: 800px) {
+    .leftFrame {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .modalImage2 {
+
+        display: none;
+      border: 2px solid green;
+    }
+  }
+
+.left_panel {
+  width: 30%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
