@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Maradona@#",
+    "database": "energy",
+    "host": "localhost",
+    "dialect": "mysql",
+    "port": 3306
+  },
+  "test": {
+    "username": "root",
+    "password": "Maradona@#",
+    "database": "energy",
+    "host": "mysql_db",
+    "dialect": "mysql",
+    "port": 3306
+  },
+  "production": {
+    "username": "root",
+    "password": "Maradona@#",
+    "database": "energy",
+    "host": "mysql_db",
+    "dialect": "mysql",
+    "port": 3306
+  }
+}
