@@ -44,7 +44,6 @@ services:
       - "80"
     environment:
       - VIRTUAL_HOST=walocho.co.ke
-      - VIRTUAL_PATH=/
       - LETSENCRYPT_HOST=walocho.co.ke
       - LETSENCRYPT_EMAIL=naxoduor7@gmail.com
     networks:
