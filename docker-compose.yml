@@ -33,6 +33,10 @@ services:
       - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - DB_NAME=$MYSQLDB_DATABASE
       - DB_PORT=$MYSQLDB_DOCKER_PORT
+    depends_on:
+      - mysql_db
+    networks:
+      - proxy
       
   frontend:
     build: ./frontend
@@ -40,6 +44,7 @@ services:
       - "80"
     environment:
       - VIRTUAL_HOST=walocho.co.ke
+      - VIRTUAL_PATH=/
       - LETSENCRYPT_HOST=walocho.co.ke
       - LETSENCRYPT_EMAIL=naxoduor7@gmail.com
     networks:
