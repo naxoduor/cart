@@ -71,6 +71,9 @@ services:
       - nginx-proxy
     networks:
       - proxy
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy   # 👈 must match the container_name above
+
 
 volumes:
    db_data:
