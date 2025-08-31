@@ -42,10 +42,10 @@ services:
     build: ./frontend
     expose:
       - "80"
-    environment:
-      - VIRTUAL_HOST=walocho.co.ke
-      - LETSENCRYPT_HOST=walocho.co.ke
-      - LETSENCRYPT_EMAIL=naxoduor7@gmail.com
+    # environment:
+    #   - VIRTUAL_HOST=walocho.co.ke
+    #   - LETSENCRYPT_HOST=walocho.co.ke
+    #   - LETSENCRYPT_EMAIL=naxoduor7@gmail.com
     networks:
       - proxy
 
@@ -59,7 +59,7 @@ services:
     volumes:
       - ./certs:/etc/nginx/certs
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx/custom.conf:/etc/nginx/conf.d/custom.conf:ro   # 👈 mount config
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       # - ./vhost.d:/etc/nginx/vhost.d
       # - ./html:/usr/share/nginx/html
     networks:
@@ -70,7 +70,7 @@ services:
     container_name: nginx-proxy-acme
     restart: unless-stopped
     volumes:
-      - ./certs:/etc/nginx/certs
+      - ./certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     depends_on:
       - nginx-proxy
@@ -78,6 +78,8 @@ services:
       - proxy
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy   # 👈 must match the container_name above
+      - DEFAULT_EMAIL=naxoduor7@gmail.com
+
 
 
 volumes:
