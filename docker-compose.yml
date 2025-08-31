@@ -59,8 +59,8 @@ services:
     volumes:
       - ./certs:/etc/nginx/certs
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      # - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/custom.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      # - ./nginx/nginx.conf:/etc/nginx/conf.d/custom.conf:ro
 
       # - ./vhost.d:/etc/nginx/vhost.d
       # - ./html:/usr/share/nginx/html
