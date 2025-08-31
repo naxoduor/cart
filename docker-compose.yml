@@ -33,6 +33,10 @@ services:
       - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - DB_NAME=$MYSQLDB_DATABASE
       - DB_PORT=$MYSQLDB_DOCKER_PORT
+      - VIRTUAL_HOST=walocho.co.ke
+      - VIRTUAL_PATH=/api
+      - LETSENCRYPT_HOST=walocho.co.ke
+
     depends_on:
       - mysql_db
     networks:
@@ -42,10 +46,10 @@ services:
     build: ./frontend
     expose:
       - "80"
-    # environment:
-    #   - VIRTUAL_HOST=walocho.co.ke
-    #   - LETSENCRYPT_HOST=walocho.co.ke
-    #   - LETSENCRYPT_EMAIL=naxoduor7@gmail.com
+    environment:
+      - VIRTUAL_HOST=walocho.co.ke
+      - LETSENCRYPT_HOST=walocho.co.ke
+      - LETSENCRYPT_EMAIL=naxoduor7@gmail.com
     networks:
       - proxy
 
@@ -57,13 +61,12 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./certs:/etc/nginx/certs
+      - ./certs:/etc/nginx/certs:rw
+      - ./vhost.d:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/custom.conf:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      # - ./nginx/nginx.conf:/etc/nginx/conf.d/custom.conf:ro
 
-      # - ./vhost.d:/etc/nginx/vhost.d
-      # - ./html:/usr/share/nginx/html
     networks:
       - proxy
 
