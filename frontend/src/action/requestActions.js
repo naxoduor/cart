@@ -585,6 +585,9 @@ export const createOrder = (order) => (dispatch) => {
   axios
     .post(`${BACKEND_URL}orders`, { order })
     .then((res) => {
+      console.log("print the order id")
+      console.log(res.data.order_id)
+      localStorage.setItem*("orderId", res.data.order_id);
       localStorage.setItem("cartId", null);
       dispatch({
         type: ORDER_DETAILS,
@@ -730,6 +733,23 @@ export const generateTransactionNumber = () => (dispatch) => {
     payload: transactionNumber,
   });
 };
+
+
+export const createAddress = (name, phone, address, email) => (dispatch) => {
+  console.log("creeeate adresss in backend")
+  let order_id = localStorage.getItem("orderId");
+  axios
+    .post(`${BACKEND_URL}address/createAddress`, { name, phone, address, email, order_id })
+    .then((res) =>
+      dispatch({
+        type: "CREATE_ADDRESS",
+        payload: res.data,
+      })
+    )
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
 // export const passwordReset = (email) => dispatch => {
 //     let transport = nodemailer.createTransport({

@@ -5,21 +5,22 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from 'react-router-dom'
-
-
-
+import { createAddress } from "../../action/requestActions";
 
 function Checkout(props) {
 
   const[state, setState]=useState({
     name:'',
     phone:'',
-    address:''
+    address:'',
+    email:'',
   })
 
   const navigate = useNavigate();
 
-  const createAddress = () =>{    
+  const createAddress = () =>{  
+    console.log("creeeeaaaaaaaaate the address")  
+    props.createAddress(name, phone, address, email);
     navigate('/')
   }
 
@@ -79,6 +80,13 @@ function Checkout(props) {
           onChange={handleChange}
           variant="standard"
         />
+        <TextField
+          style={{width: "100%"}}
+          id="email"
+          label="Email"
+          onChange={handleChange}
+          variant="standard"
+        />
         </div>
     </div>  
     <Button 
@@ -100,6 +108,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     addProduct: (product) => dispatch(addProduct(product)),
+    createAddress: (name, phone, address) => dispatch(createAddress(name, phone, address))
   };
 };
 

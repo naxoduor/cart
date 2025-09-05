@@ -21,6 +21,7 @@ import orderdetails from './routes/orderdetails.js';
 import shipping from './routes/shipping.js';
 import testing from './routes/testroute.js';
 import protect from './routes/protected.js';
+import address from './routes/address.js';
 import { swaggerUi, swaggerDocument } from "./config/swagger.js";
 
 
@@ -69,4 +70,5 @@ app.use('/shipping', shipping)
 app.use('/testing', testing)
 app.use('/chapaa', chapaa)
 app.use('/protected', protect)
+app.use('/address', address)
 app.listen(PORT, "0.0.0.0");  

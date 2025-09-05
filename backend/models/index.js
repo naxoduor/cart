@@ -91,7 +91,7 @@ ProductCart.belongsTo(ShoppingCart, {
   onDelete: "CASCADE",
 });
 
-export {
+export{
   Attribute,
   AttributeValue,
   Category,
@@ -107,4 +107,5 @@ export {
   ShoppingCart,
   Tax,
   ProductCart,
+  Address,
 };

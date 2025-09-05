@@ -22,7 +22,7 @@ CREATE TABLE `category` (
 -- Create product table
 CREATE TABLE `product` (
   `product_id`       INT           NOT NULL  AUTO_INCREMENT,
-  `name`             VARCHAR(1000)  NOT NULL,
+  `name`             VARCHAR(10000)  NOT NULL,
   `description`      TEXT NOT NULL,
   `specification`    TEXT NOT NULL,
   `price`            DECIMAL(10,2) NOT NULL,

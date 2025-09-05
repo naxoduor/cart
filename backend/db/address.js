@@ -1,20 +1,22 @@
-import Address from "../models/address";
+import {Address} from "../models/index.js";
 
-export async function createAddress(name,phone_number,postal_address,email, order_id) {
+export async function createAddressInDB(name,phone_number,postal_address,email, order_id) {
     let newAddress = Address.build({name, phone_number,postal_address, email,order_id});
-  
     return await newAddress.save();
 }
 
 
-export async function getAddressByPk(address_id) {
-    return await Address.findByPk(address_id)
+// export async function getAddressByPk(address_id) {
+//     return await Address.findByPk(address_id)
   
-  }
+//   }
   
   
   export async function getAllAddresses() {
-    return await Product.findAll()
+    return await Address.findAll()
   }
+
+  
+
 
   
