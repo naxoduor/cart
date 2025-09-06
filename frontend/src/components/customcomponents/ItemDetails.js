@@ -13,7 +13,6 @@ function ItemDetails(props) {
     const [data, setData] = useState({});
 
     useEffect(() => {
-        console.log("fetch product");
         const path_url = window.location.pathname;
         const url = BACKEND_URL + path_url.replace("/", "");
 
@@ -46,7 +45,6 @@ function ItemDetails(props) {
     };
 
     const getImage = (product) => {
-        console.log("get the image")
         let image = "";
         if (product.image) {
             let img = product.image;

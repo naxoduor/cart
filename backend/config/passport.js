@@ -35,10 +35,8 @@ passport.use(
             message: "username or email already taken",
           });
         }
-        console.log("crete user")
         const hashedPassword = await hashPassword(password);
         const user = await createCustomer(name, hashedPassword, email, mobile);
-        console.log("user created")
         return done(null, user);
       } catch (err) {
         console.log("error found", err)
@@ -61,16 +59,13 @@ passport.use(
         console.log("find user in passport middleware");
         const user = await findCustomerByEmail(email);
         if (user === null) {
-          console.log("user not found")
           return done(null, false, { message: "bad username" });
         }
 
         const response = await comparePasswords(password, user.password);
         if (response !== true) {
-          console.log("passwords do not match")
           return done(null, false, { message: "passwords do not match" });
         }
-        console.log("found user", user)
         return done(null, user);
       } catch (err) {
         return done(err);
@@ -84,8 +79,6 @@ passport.use(
   new BearerStrategy(function (token, done) {
     jwt.verify(token, "jwt-secret", function (err, customer) {
       if (err) {
-        console.log("encountered error")
-        console.log(token)
         console.log(err)
         return done(err);
       }

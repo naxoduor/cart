@@ -21,10 +21,8 @@ export const login = async (req, res, next) => {
     }
     if (info !== undefined) {
       if (info.message === "bad username") {
-        console.log("bad username", info.message);
         res.status(401).send(info.message);
       } else {
-        console.log("error 403", info.message);
         res.status(403).send(info.message);
       }
     } else {
@@ -40,7 +38,6 @@ export const login = async (req, res, next) => {
 }
 
 export const register = async (req, res, next) => {
-  console.log("register")
   passport.authenticate("register", async (err, user, info) => {
     if (err) {
       console.log(err);
@@ -49,10 +46,8 @@ export const register = async (req, res, next) => {
       console.error(info.message);
       res.status(403).send(info.message);
     } else {
-      console.log("login the user");
       req.logIn(user, async () => {
         try {
-          console.log("register user")
           let { username, email } = req.body;
           res.send(await updateCustomer(username, email));
         } catch (error) {

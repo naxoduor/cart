@@ -36,14 +36,10 @@ export async function createOrder(cart_id, transactionNumber) {
   
   const currentOrder = await Order.findOne({where: {customer_id:txnNumber},order: [["created_on", "DESC"]],});
 
-  console.log("log the new order")
-  console.log(currentOrder)
 
 
   let order_id = JSON.parse(JSON.stringify(currentOrder)).order_id;
 
-  console.log("log order id")
-  console.log(order_id)
 
   const cart = await ProductCart.findAll({include: [{model: Product,},{model: ShoppingCart,},],where: {cart_id,},});
 

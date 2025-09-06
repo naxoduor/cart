@@ -35,6 +35,7 @@ import {
   LIST_ORDERS,
   ORDER_DETAILS,
   FETCH_PAGE_PRODUCTS,
+  CREATE_ADDRESS,
 } from "./types";
 import { BACKEND_URL } from "./urls";
 
@@ -234,7 +235,6 @@ export const generateUniqueCartId = () => (dispatch) => {
 };
 
 export const addToCart = (cartId, item, quantity) => (dispatch) => {
-  console.log("item is", item)
   let carturl = `${BACKEND_URL}shoppingcart/add`;
   const { product_id, color, size } = item;
   let attributes = `Color is ${color} and size is ${size}`;
@@ -581,13 +581,10 @@ export const updateShippingCost = (shipping_cost) => (dispatch) => {
 };
 
 export const createOrder = (order) => (dispatch) => {
-  console.log("create order");
   axios
     .post(`${BACKEND_URL}orders`, { order })
     .then((res) => {
-      console.log("print the order id")
-      console.log(res.data.order_id)
-      localStorage.setItem*("orderId", res.data.order_id);
+      localStorage.setItem("orderId", res.data.order_id);
       localStorage.setItem("cartId", null);
       dispatch({
         type: ORDER_DETAILS,
@@ -674,7 +671,6 @@ export const authorizeCheckout = (token) => (dispatch) => {
       headers: { authorization: `Bearer ${token}` },
     })
     .then((res) => {
-      console.log(res.data);
       dispatch({
         type: CUSTOMER_DETAILS,
         payload: res.data,
@@ -687,7 +683,6 @@ export const authorizeCheckout = (token) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log("error encountered during loggin");
       console.log(err);
       dispatch({
         type: LOGIN_SUCCESS,
@@ -736,13 +731,12 @@ export const generateTransactionNumber = () => (dispatch) => {
 
 
 export const createAddress = (name, phone, address, email) => (dispatch) => {
-  console.log("creeeate adresss in backend")
   let order_id = localStorage.getItem("orderId");
   axios
     .post(`${BACKEND_URL}address/createAddress`, { name, phone, address, email, order_id })
     .then((res) =>
       dispatch({
-        type: "CREATE_ADDRESS",
+        type: CREATE_ADDRESS,
         payload: res.data,
       })
     )

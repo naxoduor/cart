@@ -57,7 +57,6 @@ export const getProductCount = async(req, res) =>{
     res.status(400).json(await getTotalProductsCount());
   }
   catch(error){
-    console.log("encountered error")
     console.log(error)
     res.send(error)
   }
@@ -65,8 +64,6 @@ export const getProductCount = async(req, res) =>{
 
 export const getPageProducts = async(req, res) =>{
   try{
-    console.log("get the page products")
-    console.log(req.body.params)
     let { page, pageSize } = req.body.params
     res.send(await getPaginationProducts(page, pageSize))
   }
