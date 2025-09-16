@@ -35,13 +35,12 @@ function ShirtListItem(props) {
   }
 
   return (
-    <div class="w-25">
-      <div class="card bg-white rounded m-1" onClick={()=>navigateToProductDetails(navigate, product)}>
-        <img src={`/energy/${image}`} class="card-fluid" alt="..." />
-        <div class="card-body">
-          <h7 class="card-title">${name}</h7>
-          <p class="card-text">{price}</p>
-          <div class="">
+      <div className="card bg-white rounded ml-50 w-lg-25 w-sm-100 h-auto m-auto" onClick={()=>navigateToProductDetails(navigate, product)}>
+        <img src={`/energy/${image}`} className="card-fluid" alt="..." />
+        <div className="card-body">
+          <div className="card-title text-wrap text-break">${name}</div>
+          <p className="card-text">{price}</p>
+          <div className="">
             <a href="#">
               <button type="button" class="btn btn-primary">
                 View Item Details
@@ -50,8 +49,6 @@ function ShirtListItem(props) {
           </div>
         </div>
       </div>
-      </div>
-      
   );
 }
 

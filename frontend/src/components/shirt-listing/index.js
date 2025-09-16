@@ -27,8 +27,8 @@ function ShirtList(props) {
   ));
 
   return (
-    <div class="w-100">
-      <div className="d-flex justify-content-between flex-wrap" >{renderShirtProducts}</div>
+    <div className="w-100">
+      <div className="d-flex flex-column flex-md-row flex-wrap" >{renderShirtProducts}</div>
       <Stack
         spacing={2}
         style={{
