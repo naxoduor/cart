@@ -16,4 +16,4 @@ CREATE TABLE `product_cart` (
 -- --   KEY `idx_shopping_cart_cart_id` (`cart_id`)
 -- ) ENGINE=MyISAM;
 
-MaradonaNax23@#
+-- MaradonaNax23@#

@@ -27,7 +27,7 @@ function ItemDetails(props) {
         event.preventDefault();
         setQuantity(event.target.value);
     };
-
+    
     const handleAddToCart = () => {
         let cartId = localStorage.getItem("cartId");
         try {
@@ -35,7 +35,7 @@ function ItemDetails(props) {
         } catch (e) {
             console.log(e);
         }
-        // props.handleClose();
+        navigate("/")
     };
 
     const updateProductDetails = () => {
