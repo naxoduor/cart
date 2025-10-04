@@ -10,7 +10,7 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - '80:80'
+      - '5000:80'
     expose:
       - "80"          # Makes port 80 available to other containers
     environment:
