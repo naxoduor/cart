@@ -61,7 +61,7 @@ export const fetchCatalogueProducts = (page) => (dispatch) => {
 
 export const fetchCataloguePageProducts = (page) => (dispatch) => {
   let pageLink = `${BACKEND_URL}products/page-products`;
-  let pageSize = 10;
+  let pageSize = 20;
   let params = { page, pageSize };
   axios
     .post(pageLink, { params })

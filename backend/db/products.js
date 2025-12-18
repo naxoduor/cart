@@ -33,7 +33,7 @@ export async function getPaginationProducts(page, pageSize){
 
 }
 
-export async function searchProducts(searchParam) {
+export async function  searchProducts(searchParam) {
 
   return Product.findAll({
     where: {

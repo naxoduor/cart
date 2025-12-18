@@ -44,7 +44,7 @@ function ShirtList(props) {
               margin: '0 20px',
             },
           }}
-          count={35}
+          count={70}
           variant="outlined"
           shape="rounded"
           onChange={onPageChange}
