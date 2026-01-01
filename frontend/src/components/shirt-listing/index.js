@@ -28,7 +28,7 @@ function ShirtList(props) {
 
   return (
     <div className="w-100">
-      <div className="d-flex flex-column flex-md-row flex-wrap" >{renderShirtProducts}</div>
+      <div className="d-flex flex-column flex-md-row flex-wrap gap-3" >{renderShirtProducts}</div>
       <Stack
         spacing={2}
         style={{
@@ -44,7 +44,7 @@ function ShirtList(props) {
               margin: '0 20px',
             },
           }}
-          count={39}
+          count={49}
           variant="outlined"
           shape="rounded"
           onChange={onPageChange}

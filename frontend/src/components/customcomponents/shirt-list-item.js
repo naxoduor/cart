@@ -35,10 +35,10 @@ function ShirtListItem(props) {
   }
 
   return (
-      <div className="card bg-white rounded ml-50 w-lg-25 w-sm-100 h-auto m-auto" onClick={()=>navigateToProductDetails(navigate, product)}>
+      <div className="card bg-white rounded h-auto m-auto" onClick={()=>navigateToProductDetails(navigate, product)}>
         <img src={`/energy/${image}`} className="card-fluid" alt="..." />
         <div className="card-body">
-          <div className="card-title text-wrap text-break">${name}</div>
+          <div className="card-title w-100 text-wrap text-break">${name}</div>
           <p className="card-text">{price}</p>
           <div className="">
             <a href="#">

@@ -1,12 +1,17 @@
-.product-list-item{
+/* .product-list-item{
     width: 25%;
     border-radius: 10px;
     background-color: white;
     margin: auto;
+} */
+
+.card{
+    width: 20%;
+    margin: 10px;
 }
 
 @media (max-width: 800px) {
-    .product-list-item {
+    .card {
       width: 100%;
     }
   }
