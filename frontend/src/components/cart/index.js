@@ -6,7 +6,6 @@ import {
   createOrder,
 } from "../../action/requestActions";
 import "./cart.css";
-//import { withRouter } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import Table from "@mui/material/Table";
@@ -17,9 +16,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import Button from "../customcomponents/GenericButton";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
 import { BACKEND_URL } from "../../action/urls";
-import axios from 'axios'
+import axios from "axios"
 
 const TAX_RATE = 0.07;
 
@@ -41,26 +43,25 @@ function subtotal(items) {
 }
 
 function Cart(props) {
-  const [cartData, setCartData] = useState([])
-  const rows = [];
+  const [cartData, setCartData] = useState([]);
 
-  useEffect( ()=>{
-    let cart_id = localStorage.getItem("cartId");
-    let url = `${BACKEND_URL}shoppingcart/${cart_id}`;
-    
+  useEffect(() => {
+    const cart_id = localStorage.getItem("cartId");
+    const url = `${BACKEND_URL}shoppingcart/${cart_id}`;
+
     async function fetchData() {
-        const response = await axios.get(url)
-        setCartData(response.data)
-      }
-      fetchData();
-    
-},[])
+      const response = await axios.get(url);
+      setCartData(response.data);
+    }
 
-  cartData.forEach((element) => {
+    fetchData();
+  }, []);
+
+  const rows = cartData.map((element) => {
     const { name, price } = element.product;
     const item_id = element.item_id;
     const quantity = element.shopping_cart.quantity;
-    rows.push(createRow(name, quantity, price, item_id));
+    return createRow(name, quantity, price, item_id);
   });
 
   const invoiceSubtotal = subtotal(rows);
@@ -69,135 +70,172 @@ function Cart(props) {
 
   const navigate = useNavigate();
 
-  const checkout = (event) => {
-    // if (props.authentication.authenticated) {
-    let transactionNumber = props.generateTransactionNumber();
-    let cartId = localStorage.getItem("cartId");
-    let order = {cartId, transactionNumber}
-    props.createOrder(order)
+  const checkout = () => {
+    const transactionNumber = props.generateTransactionNumber();
+    const cartId = localStorage.getItem("cartId");
+    const order = { cartId, transactionNumber };
+
+    props.createOrder(order);
     navigate("/checkout");
-    
   };
 
-  // const handleAddProduct = (e, item_id) => {
-  //   let quantity = e.target.value;
-  //   props.updateCartItem(item_id, quantity);
-  //   setName("Nax Oduor");
-  // };
-
-  const removeCartProduct = (e, item_id) => {
-    e.preventDefault();
+  const handleRemoveCartProduct = (event, item_id) => {
+    event.preventDefault();
     props.removeCartProduct(item_id);
-    // props.handleClose();
   };
 
 
   return (
-    // <div className={showHideClassName}>
-    <div className="w-100" style={{ textAlign: "center" }}>
-      <Typography variant="h5">CART ITEMS</Typography>
-      <div className="cart-main">
-        <TableContainer component={Paper} className="table-responsive table table-bordered">
-          <Table className="table table-bordered table-striped table-hover align-middle" sx={{ minWidth: 700 }} aria-label="spanning table">
-            <TableHead className="table table-bordered table-striped table-hover align-middle">
-              <TableRow>
-                <TableCell align="center" colSpan={3}>
-                  <Typography gutterBottom variant="h4" component="div">
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Box sx={{ mb: 3, textAlign: "center" }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+          Shopping Cart
+        </Typography>
+        <Typography color="text.secondary">
+          Review your items and checkout when you're ready.
+        </Typography>
+      </Box>
+
+      <Stack spacing={4}>
+        <TableContainer component={Paper} sx={{ overflowX: "auto", boxShadow: 3 }}>
+          <Table sx={{ minWidth: 700 }} aria-label="shopping cart table">
+            <TableHead>
+              <TableRow sx={{ backgroundColor: "action.hover" }}>
+                <TableCell align="center" colSpan={4} sx={{ borderBottom: 0 }}>
+                  <Typography gutterBottom variant="h5" component="div">
                     Details
                   </Typography>
                 </TableCell>
-                <TableCell align="right">
-                  <Typography gutterBottom variant="h4" component="div">
-                    
+                <TableCell align="right" sx={{ borderBottom: 0 }}>
+                  <Typography gutterBottom variant="h5" component="div">
                     Price
                   </Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <Typography variant="h5">Desc</Typography>
+                  <Typography variant="subtitle1" fontWeight={600}>
+                    Description
+                  </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h5">Qty.</Typography>
+                  <Typography variant="subtitle1" fontWeight={600}>
+                    Qty.
+                  </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h5">Unit</Typography>
+                  <Typography variant="subtitle1" fontWeight={600}>
+                    Unit
+                  </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h5">Sum</Typography>
+                  <Typography variant="subtitle1" fontWeight={600}>
+                    Sum
+                  </Typography>
+                </TableCell>
+                <TableCell align="right">
+                  <Typography variant="subtitle1" fontWeight={600}>
+                    Action
+                  </Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.desc}>
-                  <TableCell>
-                    <Typography variant="h7">{row.desc}</Typography>
-                  </TableCell>
-                  <TableCell align="right">{row.qty}</TableCell>
-                  <TableCell align="right">{row.unit}</TableCell>
-                  <TableCell align="right">{ccyFormat(row.price)}</TableCell>
-                  <TableCell
-                    align="right"
-                    className="rmvItem"
-                    onClick={(e) => removeCartProduct(e, row.item_id)}
-                  >
-                    <Typography className="text-center"><button className="btn btn-danger btn-sm">Remove</button></Typography>
+              {rows.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} align="center" sx={{ py: 6 }}>
+                    <Typography color="text.secondary">
+                      Your cart is empty. Add some items to continue.
+                    </Typography>
                   </TableCell>
                 </TableRow>
-              ))}
-              <TableRow>
-                <TableCell rowSpan={3} />
-                <TableCell colSpan={2}>
-                  <Typography variant="h6">Subtotal</Typography>
-                </TableCell>
-                <TableCell align="right">
-                  <Typography variant="h6">
-                    {ccyFormat(invoiceSubtotal)}
-                  </Typography>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <Typography variant="h6">Tax</Typography>
-                </TableCell>
-                <TableCell align="right">
-                  <Typography variant="h6">{`${(TAX_RATE * 100).toFixed(
-                    0
-                  )} %`}</Typography>
-                </TableCell>
-                <TableCell align="right">
-                  <Typography variant="h6">
-                    {ccyFormat(invoiceTaxes)}
-                  </Typography>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan={2}>
-                  <Typography variant="h6">Total</Typography>
-                </TableCell>
-                <TableCell align="right">
-                  <Typography variant="h6">
-                    {ccyFormat(invoiceTotal)}
-                  </Typography>
-                </TableCell>
-              </TableRow>
+              ) : (
+                rows.map((row) => (
+                  <TableRow key={row.item_id} hover>
+                    <TableCell>
+                      <Typography variant="body1">{row.desc}</Typography>
+                    </TableCell>
+                    <TableCell align="right">{row.qty}</TableCell>
+                    <TableCell align="right">{row.unit}</TableCell>
+                    <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+                    <TableCell align="right">
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        size="small"
+                        onClick={(e) => handleRemoveCartProduct(e, row.item_id)}
+                      >
+                        Remove
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+              {rows.length > 0 && (
+                <>
+                  <TableRow>
+                    <TableCell rowSpan={3} />
+                    <TableCell colSpan={2}>
+                      <Typography variant="subtitle1">Subtotal</Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="subtitle1">
+                        {ccyFormat(invoiceSubtotal)}
+                      </Typography>
+                    </TableCell>
+                    <TableCell />
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography variant="subtitle1">Tax</Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="subtitle1">
+                        {`${(TAX_RATE * 100).toFixed(0)} %`}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="subtitle1">
+                        {ccyFormat(invoiceTaxes)}
+                      </Typography>
+                    </TableCell>
+                    <TableCell />
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={2}>
+                      <Typography variant="h6" fontWeight={700}>
+                        Total
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="h6" fontWeight={700}>
+                        {ccyFormat(invoiceTotal)}
+                      </Typography>
+                    </TableCell>
+                    <TableCell />
+                  </TableRow>
+                </>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
-        <button className="btn btn-danger w-60 p-20" message="Checkout" onClick={checkout}>CHECKOUT</button>
-      </div>
-    </div>
+
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            variant="contained"
+            color="error"
+            size="large"
+            disabled={rows.length === 0}
+            onClick={checkout}
+            sx={{ px: 6, py: 1.5 }}
+          >
+            Checkout
+          </Button>
+        </Box>
+      </Stack>
+    </Container>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    cartItems: state.cartItems,
-    cartAmount: state.cartAmount,
-    authentication: state.authentication,
-  };
-};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -208,4 +246,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connect(null, mapDispatchToProps)(Cart);

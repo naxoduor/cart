@@ -1,147 +1,118 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addProduct } from "../../action/requestActions";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { createAddress } from "../../action/requestActions";
+import { Box, Button, Container, Paper, Stack, TextField, Typography } from "@mui/material";
 
-function Checkout(props) {
-
+function Checkout({ createAddress }) {
   const [formData, setFormData] = useState({
-    inputName: '',
-    inputPhone: '',
-    inputAddress: '',
-    inputEmail: ''
-  })
-
-  
-  const navigate = useNavigate();
-
-  const createAddress = (e) => {
-    e.preventDefault();
-    props.createAddress(formData.inputName, formData.inputPhone, formData.inputAddress, formData.inputEmail);
-    navigate('/')
-  }
-
-  const handleChange = ((e) => {
-    const {id, value} = e.target;
-    setFormData((prev) => ({
-      ...prev, [id]: value
-    }));
+    name: "",
+    phone: "",
+    address: "",
+    email: ""
   });
 
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    const { id, value } = event.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createAddress(formData.name, formData.phone, formData.address, formData.email);
+    navigate("/");
+  };
 
   return (
-    <div className="row">
-      <div class="col-md-5">
-          <div class="mb-3">
-            <label for="inputName" class="form-label">Name</label>
-            <input type="text" value={formData.inputName} class="form-control" id="inputName" onChange={handleChange}/>
-          </div>
-          <div class="mb-3">
-            <label for="inputPhone" class="form-label">Phone Number</label>
-            <input type="text" value={formData.inputPhone} class="form-control" id="inputPhone" onChange={handleChange}/>
-          </div>
-      </div>
+    <Container
+      maxWidth="sm"
+      sx={{
+        py: 8,
+        minHeight: "calc(100vh - 120px)",
+        display: "flex",
+        alignItems: "center"
+      }}
+    >
+      <Paper
+        component="form"
+        onSubmit={handleSubmit}
+        elevation={6}
+        sx={{
+          p: 4,
+          borderRadius: 3,
+          bgcolor: "background.paper",
+          boxShadow: "0 24px 80px rgba(15, 23, 42, 0.08)"
+        }}
+      >
+        <Stack spacing={3}>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography variant="h4" fontWeight={700} gutterBottom>
+              Checkout
+            </Typography>
+            <Typography color="text.secondary" sx={{ mx: "auto", maxWidth: 360 }}>
+              Confirm your order details and delivery information before submitting.
+            </Typography>
+          </Box>
 
-      <div class="col-md-5">
-          <div class="mb-3">
-            <label for="inputAddress" class="form-label">Email address</label>
-            <input type="text" value={formData.inputAddress} class="form-control" id="inputAddress" onChange={handleChange}/>
-          </div>
-          <div class="mb-3">
-            <label for="inputEmail" class="form-label">Email</label>
-            <input type="email" value={formData.inputEmail} class="form-control" id="inputEmail" onChange={handleChange}/>
-          </div>
-          <button type="submit" class="btn btn-primary" onClick={createAddress}>Submit</button>
-      </div>
-    </div>
+          <TextField
+            id="name"
+            label="Full Name"
+            value={formData.name}
+            onChange={handleChange}
+            fullWidth
+            required
+            placeholder="Jane Doe"
+          />
+          <TextField
+            id="phone"
+            label="Phone Number"
+            value={formData.phone}
+            onChange={handleChange}
+            fullWidth
+            required
+            placeholder="(555) 123-4567"
+          />
+          <TextField
+            id="address"
+            label="Delivery Address"
+            value={formData.address}
+            onChange={handleChange}
+            fullWidth
+            required
+            multiline
+            minRows={2}
+            placeholder="123 Main St, Apt 4B"
+          />
+          <TextField
+            id="email"
+            type="email"
+            label="Email Address"
+            value={formData.email}
+            onChange={handleChange}
+            fullWidth
+            required
+            placeholder="jane@example.com"
+          />
 
-
-    //   <div style={{width:"100%", textAlign:"center"}}>
-    //     <form onSubmit={createAddress} className="white" style={{paddingTop:"20px"}}> 
-    //     <div
-    //     style={{
-    //       display: "flex",
-    //       justifyContent: "space-around",
-    //       width: "100%"
-    //     }}
-    //   >
-    //     <div style={{width: "30%"}}>
-    //       <Typography variant="h6" component="div">
-    //         Name
-    //       </Typography>
-
-    //       <TextField
-    //        style={{width: "100%"}}
-    //         id="name"
-    //         // value={name}
-    //         label="Name"
-    //         onChange={handleChange}
-    //         variant="standard"
-    //       />
-    //       </div>
-    //       <div style={{width: "30%"}}>
-    //       <Typography variant="h6" component="div">
-    //         Phone Number
-    //       </Typography>
-
-    //       <TextField
-    //         style={{width: "100%"}}
-    //         id="phone"
-    //         value=''
-    //         label="Phone Number"
-    //         onChange={handleChange}
-    //         variant="standard"
-    //       />
-    //       </div>
-    //       <div style={{width: "30%"}}>
-    //       <Typography variant="h6" component="div">
-    //         Postal Address
-    //       </Typography>
-
-    //       <TextField
-    //         style={{width: "100%"}}
-    //         id="address"
-    //         // value={address}
-    //         label="Postal Address"
-    //         onChange={handleChange}
-    //         variant="standard"
-    //       />
-    //       <TextField
-    //         style={{width: "100%"}}
-    //         id="email"
-    //         // value={email}
-    //         label="Email"
-    //         onChange={handleChange}
-    //         variant="standard"
-    //       />
-    //       </div>
-    //   </div>  
-    //   <Button onClick={createAddress} variant="contained" type="submit"
-    //    style={{ 
-    //      marginTop: "20px",
-    //      width: "30%",
-    //      backgroundColor: "rgba(47, 22, 22, 1)",
-    //    }} >Submit</Button>
-    //    </form>
-    // </div>
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            sx={{ py: 1.75, fontWeight: 700 }}
+          >
+            Complete Order
+          </Button>
+        </Stack>
+      </Paper>
+    </Container>
   );
 }
 
-
-const mapStateToProps = (state) => ({
-  productItem: state.productItem,
-  orderDetails: state.orderDetails,
+const mapDispatchToProps = (dispatch) => ({
+  createAddress: (name, phone, address, email) =>
+    dispatch(createAddress(name, phone, address, email))
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addProduct: (product) => dispatch(addProduct(product)),
-    createAddress: (name, phone, address, email) => dispatch(createAddress(name, phone, address, email))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+export default connect(null, mapDispatchToProps)(Checkout);

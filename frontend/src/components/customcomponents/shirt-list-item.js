@@ -1,61 +1,85 @@
 import React from "react";
-import "./shirt-list-item.css";
-import { updateItemDetails } from "../../action/requestActions";
-import { connect } from "react-redux";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import CardActionArea from "@mui/material/CardActionArea";
-import GenericButton from "./GenericButton";
 import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Button,
+  Typography,
+  Box,
+} from "@mui/material";
 
 const navigateToProductDetails = (navigate, product) => {
-    const product_name =
-      "/" +
-      "products" +
-      "/" +
-      product.name.replace(/ /g, "_") +
-      "/" +
-      product.product_id;
-    navigate(product_name);
+  const productName = `/products/${product.name.replace(/ /g, "_")}/${product.product_id}`;
+  navigate(productName);
+};
+
+function ShirtListItem({ product }) {
+  const navigate = useNavigate();
+  const { name, price, image: rawImage } = product;
+
+  const image = rawImage.includes(".jpg") ? rawImage : `${rawImage}.webp`;
+
+  const handleClick = () => {
+    navigateToProductDetails(navigate, product);
   };
 
-function ShirtListItem(props) {
-  const navigate = useNavigate();
-  const { name, price } = props.product;
-
-  let product = props.product || {};
-  let img = product.image;
-  let image = "";
-  if (img.includes(".jpg")) {
-    image = img;
-  } else {
-    image = img + ".webp";
-  }
-
   return (
-      <div className="card bg-white rounded h-auto m-auto" onClick={()=>navigateToProductDetails(navigate, product)}>
-        <img src={`/energy/${image}`} className="card-fluid" alt="..." />
-        <div className="card-body">
-          <div className="card-title w-100 text-wrap text-break">${name}</div>
-          <p className="card-text">{price}</p>
-          <div className="">
-            <a href="#">
-              <button type="button" class="btn btn-primary">
-                View Item Details
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
+    <Card
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        transition: "all 0.3s ease",
+        cursor: "pointer",
+        "&:hover": {
+          boxShadow: 6,
+          transform: "translateY(-4px)",
+        },
+      }}
+      onClick={handleClick}
+    >
+      <CardMedia
+        component="img"
+        height="300"
+        image={`/energy/${image}`}
+        alt={name}
+        sx={{
+          objectFit: "cover",
+        }}
+      />
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 600,
+            mb: 1,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+          }}
+        >
+          {name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {price}
+        </Typography>
+      </CardContent>
+      <CardActions sx={{ justifyContent: "center", pt: 0 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleClick}
+        >
+          View Details
+        </Button>
+      </CardActions>
+    </Card>
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateItemDetails: (product) => dispatch(updateItemDetails(product)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(ShirtListItem);
+export default ShirtListItem;

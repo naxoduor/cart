@@ -9,17 +9,16 @@ export const  getAddresses = async (req, res) => {
 }
 
 export const createAddress = async (req, res) => {
-  console.log("create address from api", req)
   try {
-    const {name, phone, address, email, order_id} = req.body
-    const newAddress = await createAddressInDB(name, phone, address, email, order_id)
-    res.status(201).json(newAddress)
+    const {name, phone, address, email, order_id} = req.body;
+    const newAddress = await createAddressInDB(name, phone, address, email, order_id);
+    res.status(201).json(newAddress);
   } catch (error) {
+    console.error('Error creating address:', error);
     res.status(500).json({ error: 'Failed to create address' });
   }
-  
 }
 
 export const test = async (req, res) => {
-  return res.send("test api")
+  return res.status(200).json({ message: "test api" });
 }
