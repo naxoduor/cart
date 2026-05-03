@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../../action/urls";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSEO } from "../../hooks/useSEO";
 import { addToCart } from "../../action/requestActions";
 import {
   Container,
@@ -35,6 +36,46 @@ function ItemDetails(props) {
     const [product, setProduct] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const pageTitle = product.name ? `${product.name} | Product Details` : "Product Details";
+    const pageDescription =
+      product.description ||
+      "View detailed product information and purchase options for electrical and solar products.";
+
+    const seoOptions = useMemo(() => {
+      const keywords = [product.name, product.category, "product", "shopping", "solar", "electrical"]
+        .filter(Boolean)
+        .join(", ");
+
+      return {
+        keywords,
+        ogTitle: product.name || "Product Details",
+        ogDescription: pageDescription,
+        ogType: "product",
+        canonical: window.location.pathname,
+        schema: {
+          type: "Product",
+          data: {
+            name: product.name,
+            description: product.description,
+            sku: product.id || product._id || product.name,
+            url: window.location.href,
+            offers: {
+              "@type": "Offer",
+              price: product.price ?? "0",
+              priceCurrency: "USD",
+              availability:
+                product.quantity > 0
+                  ? "https://schema.org/InStock"
+                  : "https://schema.org/OutOfStock",
+              url: window.location.href,
+            },
+          },
+        },
+      };
+    }, [product, pageDescription]);
+
+    useSEO(pageTitle, pageDescription, seoOptions);
 
     useEffect(() => {
         const fetchProduct = async () => {

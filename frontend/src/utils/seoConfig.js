@@ -11,22 +11,26 @@ export const seoConfig = {
     robots: "index, follow"
   },
   "/cart": {
-    title: "Shopping Cart | Your Orders",
-    description: "Review and manage your shopping cart items before checkout.",
-    keywords: "shopping cart, checkout, orders",
-    ogTitle: "Shopping Cart",
-    ogDescription: "Complete your purchase",
+    title: "Your Cart | Ready for Checkout",
+    description: "Review your selected items, compare costs, and proceed to a secure checkout experience.",
+    keywords: "shopping cart, checkout, review items, secure shopping",
+    ogTitle: "Your Shopping Cart",
+    ogDescription: "Review your selected items and prepare for secure checkout.",
     ogType: "website",
+    ogImage: "/100watts.jpg",
+    twitterImage: "/100watts.jpg",
     canonical: "/cart",
     robots: "noindex, follow"
   },
   "/checkout": {
-    title: "Secure Checkout | Complete Your Order",
-    description: "Fast and secure checkout process. Enter your delivery details and complete your order.",
-    keywords: "checkout, secure payment, delivery",
-    ogTitle: "Checkout",
-    ogDescription: "Complete your purchase securely",
+    title: "Checkout | Secure Payment & Delivery",
+    description: "Complete your purchase with secure payment, delivery details, and a fast order confirmation.",
+    keywords: "checkout, secure payment, delivery, order confirmation",
+    ogTitle: "Secure Checkout",
+    ogDescription: "Secure payment and delivery for your order.",
     ogType: "website",
+    ogImage: "/100watts.jpg",
+    twitterImage: "/100watts.jpg",
     canonical: "/checkout",
     robots: "noindex, follow"
   },
@@ -47,6 +51,21 @@ export const seoConfig = {
     ogTitle: "Product Details",
     ogDescription: "View product information",
     ogType: "product",
+    ogImage: "/100watts.jpg",
+    twitterImage: "/100watts.jpg",
+    canonical: "/products",
+    robots: "index, follow"
+  },
+  "/products/*": {
+    title: "Product Details | Shop Now",
+    description: "View detailed product information and add items to your cart.",
+    keywords: "product, details, shopping",
+    ogTitle: "Product Details",
+    ogDescription: "View product information",
+    ogType: "product",
+    ogImage: "/100watts.jpg",
+    twitterImage: "/100watts.jpg",
+    canonical: "/products",
     robots: "index, follow"
   },
   "/addproduct": {
@@ -66,7 +85,37 @@ export const seoConfig = {
     ogDescription: "Manage your product catalog",
     ogType: "website",
     robots: "noindex, nofollow"
+  },
+  "/404": {
+    title: "Page Not Found | Online Shop",
+    description: "The page you are looking for can't be found. Return to shopping for quality electrical and solar products.",
+    keywords: "404, not found, page missing, online shop",
+    ogTitle: "Page Not Found",
+    ogDescription: "The page you are looking for can't be found.",
+    ogType: "website",
+    canonical: "/404",
+    robots: "noindex, follow"
   }
+};
+
+/**
+ * Get SEO configuration for a route path.
+ * Supports exact match and prefix-based fallback for dynamic routes.
+ * @param {string} path - Current route path
+ */
+const getSEOConfigForPath = (path) => {
+  if (seoConfig[path]) {
+    return seoConfig[path];
+  }
+
+  const prefixMatch = Object.keys(seoConfig).find((key) => {
+    if (key.endsWith("/*")) {
+      return path.startsWith(key.replace("/*", ""));
+    }
+    return key !== "/" && path.startsWith(key);
+  });
+
+  return seoConfig[prefixMatch] || seoConfig["/404"] || seoConfig["/"];
 };
 
 /**
@@ -76,7 +125,7 @@ export const seoConfig = {
  */
 export const updatePageSEO = (path, customMeta = {}) => {
   // Find matching SEO config for the path
-  const config = seoConfig[path] || seoConfig["/"];
+  const config = getSEOConfigForPath(path);
   const meta = { ...config, ...customMeta };
 
   // Update document title
@@ -112,11 +161,17 @@ export const updatePageSEO = (path, customMeta = {}) => {
   setMeta("og:description", meta.ogDescription, "property");
   setMeta("og:type", meta.ogType, "property");
   setMeta("og:url", window.location.href, "property");
+  if (meta.ogImage) {
+    setMeta("og:image", `${window.location.origin}${meta.ogImage}`, "property");
+  }
 
   // Update Twitter Card tags
   setMeta("twitter:title", meta.title, "name");
   setMeta("twitter:description", meta.description, "name");
   setMeta("twitter:card", "summary_large_image", "name");
+  if (meta.twitterImage) {
+    setMeta("twitter:image", `${window.location.origin}${meta.twitterImage}`, "name");
+  }
 };
 
 /**
@@ -131,10 +186,11 @@ export const addStructuredData = (type, data) => {
     ...data
   };
 
-  let script = document.querySelector("script[type='application/ld+json']");
+  let script = document.querySelector(`script[type='application/ld+json'][data-schema-type='${type}']`);
   if (!script) {
     script = document.createElement("script");
     script.type = "application/ld+json";
+    script.dataset.schemaType = type;
     document.head.appendChild(script);
   }
   script.innerHTML = JSON.stringify(schemaData);

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { updatePageSEO, addStructuredData } from "./seoConfig";
+import { updatePageSEO, addStructuredData } from "../utils/seoConfig.js";
 
 /**
  * Custom hook for managing component-level SEO
@@ -25,5 +25,5 @@ export const useSEO = (title, description, options = {}) => {
     if (options.schema) {
       addStructuredData(options.schema.type, options.schema.data);
     }
-  }, [title, description, options]);
+  }, [title, description, JSON.stringify(options)]);
 };

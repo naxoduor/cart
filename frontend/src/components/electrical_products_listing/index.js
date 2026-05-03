@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import ShirtListItem from "../customcomponents/shirt-list-item";
+import ElectricalProductsListItem from "../customcomponents/electrical_products_list_item";
 import { Pagination, Stack, Container, Box, Typography, Divider, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { fetchCataloguePageProducts } from "../../action/requestActions";
 
-function ShirtList({ products: { products = [] } = {}, fetchCataloguePageProducts }) {
+function ElectricalProductsList({ products: { products = [] } = {}, fetchCataloguePageProducts }) {
   const onPageChange = (event, page) => {
     fetchCataloguePageProducts(page);
   };
@@ -34,7 +34,7 @@ function ShirtList({ products: { products = [] } = {}, fetchCataloguePageProduct
             textShadow: "0 2px 4px rgba(0,0,0,0.1)"
           }}
         >
-          Premium Shirt Collection
+          Premium Electrical Products Collection
         </Typography>
         <Typography
           variant="h6"
@@ -46,7 +46,7 @@ function ShirtList({ products: { products = [] } = {}, fetchCataloguePageProduct
             lineHeight: 1.6
           }}
         >
-          Discover our curated selection of high-quality shirts. From casual wear to professional attire,
+          Discover our curated selection of high-quality electrical products. From casual use to professional applications,
           find your perfect fit with our premium collection.
         </Typography>
       </Box>
@@ -77,10 +77,10 @@ function ShirtList({ products: { products = [] } = {}, fetchCataloguePageProduct
             }}
           />
           <Typography variant="h5" color="text.secondary" sx={{ mb: 2, fontWeight: 600 }}>
-            No shirts found
+            No electrical products found
           </Typography>
           <Typography color="text.secondary" sx={{ maxWidth: 400, lineHeight: 1.6 }}>
-            We couldn't find any shirts matching your criteria. Try adjusting your search filters
+            We couldn't find any products matching your criteria. Try adjusting your search filters
             or browse our entire collection for the latest arrivals.
           </Typography>
         </Paper>
@@ -116,7 +116,7 @@ function ShirtList({ products: { products = [] } = {}, fetchCataloguePageProduct
                 },
               }}
             >
-              <ShirtListItem product={product} />
+              <ElectricalProductsListItem product={product} />
             </Box>
           ))}
         </Box>
@@ -175,6 +175,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchCataloguePageProducts(page)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShirtList);
+export default connect(mapStateToProps, mapDispatchToProps)(ElectricalProductsList);
 
 

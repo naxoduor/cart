@@ -15,7 +15,7 @@ const navigateToProductDetails = (navigate, product) => {
   navigate(productName);
 };
 
-function ShirtListItem({ product }) {
+function ElectricalProductsListItem({ product }) {
   const navigate = useNavigate();
   const { name, price, image: rawImage } = product;
 
@@ -82,4 +82,4 @@ function ShirtListItem({ product }) {
   );
 }
 
-export default ShirtListItem;
+export default ElectricalProductsListItem;

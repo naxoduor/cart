@@ -1,4 +1,4 @@
--- Create tshirtshop tables
+-- Create electrical productsshop tables
 CREATE DATABASE IF NOT EXISTS energy;
 
 -- Create department table

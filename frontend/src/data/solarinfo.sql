@@ -1,4 +1,4 @@
--- Create tshirtshop tables
+-- Create electrical productsshop tables
 
 -- Create department table
 CREATE TABLE `department` (

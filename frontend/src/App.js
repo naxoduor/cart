@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./containers/homepage";
 import ListOrders from "./containers/listorders";
 import Checkout from "./components/checkout";
@@ -7,6 +7,7 @@ import Cart from "./components/cart";
 import UpdateProduct from "./details/additions/update";
 import ForgotPassword from "./auth/forgotpassword";
 import ItemDetails from "./components/customcomponents/ItemDetails";
+import NotFound from "./components/NotFound";
 import {
   authorizeCheckout,
   generateUniqueCartId,
@@ -17,9 +18,12 @@ import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import AddProduct from "./details/additions/addproduct";
 import Navbar from "./components/navbar/navbarthree";
+import { updatePageSEO, addOrganizationSchema, addWebsiteSchema } from "./utils/seoConfig";
 import { Box, Container, Paper, Fade, CssBaseline } from "@mui/material";
 
 function App({ authorizeCheckout, generateUniqueCartId, fetchCatalogueProducts, searchProductsByParam }) {
+  const location = useLocation();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -30,6 +34,12 @@ function App({ authorizeCheckout, generateUniqueCartId, fetchCatalogueProducts, 
       generateUniqueCartId();
     }
   }, [authorizeCheckout, generateUniqueCartId]);
+
+  useEffect(() => {
+    updatePageSEO(location.pathname);
+    addOrganizationSchema();
+    addWebsiteSchema();
+  }, [location.pathname]);
 
   const [showForgotPassword, setShowForgotPassword] = useState(false);
 
@@ -119,6 +129,7 @@ function App({ authorizeCheckout, generateUniqueCartId, fetchCatalogueProducts, 
                   <Route path="/allorders" element={<ListOrders />} />
                   <Route path="/products/*" element={<ItemDetails />} />
                   <Route path="/cart" element={<Cart />} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </Box>
             </Paper>

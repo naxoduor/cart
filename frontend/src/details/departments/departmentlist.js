@@ -107,7 +107,7 @@ class DepartmentList extends Component {
             <div>
                 <Form onSubmit={this.getSearchProducts}>
                     <FormGroup controlId="formGridsearchShirt">
-                        <FormControl className="search" type="text" name="searchString" placeholder="Search Shirt" value={this.state.searchString} onChange={this.handleChange} />
+                        <FormControl className="search" type="text" name="searchString" placeholder="Search Product" value={this.state.searchString} onChange={this.handleChange} />
                     </FormGroup>
                 </Form>
                 <label>Departments</label>
